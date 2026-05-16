@@ -1,0 +1,40 @@
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code
+.vscode/
+
+# Visual Studio
+.vs/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# OS files
+*.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Rider
+.idea/
+
+# Runtime files
+*.pdb
+*.runtimeconfig.json
+*.deps.json
+
+# Publish output
+publish/
