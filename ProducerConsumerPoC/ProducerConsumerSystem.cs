@@ -64,6 +64,7 @@ public sealed class ProducerConsumerSystem<T> : IAsyncDisposable
     public async Task StopAsync()
     {
         ThrowIfDisposed();
+        Console.WriteLine("Stopping ProducerConsumerSystem...");
 
         if (!_started)
         {
@@ -71,7 +72,7 @@ public sealed class ProducerConsumerSystem<T> : IAsyncDisposable
         }
 
         _channel.Writer.Complete();
-        _stopCts.Cancel();
+        _started = false;
 
         await Task.WhenAll(_consumers).ConfigureAwait(false);
     }
@@ -87,7 +88,14 @@ public sealed class ProducerConsumerSystem<T> : IAsyncDisposable
             {
                 while (_channel.Reader.TryRead(out var item))
                 {
-                    await _handler(item).ConfigureAwait(false);
+                    try
+                    {
+                        await _handler(item).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        // Swallow handler exceptions so other items can still be processed.
+                    }
                 }
             }
         }
